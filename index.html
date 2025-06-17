@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pars - Türk Yapay Zeka</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #000000, #0f172a);
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .bubble {
+      max-width: 70%;
+      margin-bottom: 10px;
+      padding: 12px 20px;
+      border-radius: 20px;
+      line-height: 1.5;
+    }
+    .user-bubble {
+      background-color: #1d4ed8;
+      align-self: flex-end;
+    }
+    .ai-bubble {
+      background-color: #0891b2;
+      align-self: flex-start;
+    }
+    .file-upload {
+      border: 1px solid #4b5563;
+      padding: 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+  <div id="app" class="w-full max-w-4xl p-4">
+    <div id="welcome" class="text-center" style="display:block">
+      <h1 class="text-3xl mb-6 font-bold">Melek mi, Pars mı?</h1>
+      <button onclick="selectAI('Melek')" class="px-6 py-3 m-2 bg-blue-700 hover:bg-blue-800 rounded-lg text-xl">Melek</button>
+      <button onclick="selectAI('Pars')" class="px-6 py-3 m-2 bg-cyan-600 hover:bg-cyan-700 rounded-lg text-xl">Pars</button>
+    </div>
+
+    <div id="chat" style="display:none" class="flex flex-col h-[85vh]">
+      <h2 id="aiName" class="text-2xl mb-4 font-semibold"></h2>
+      <div class="mb-4 flex gap-4">
+        <input type="file" id="fileInput" class="file-upload text-black" multiple />
+        <button onclick="requestCamera()" class="bg-indigo-600 px-4 py-2 rounded">📷 Kamera</button>
+        <button onclick="generateImage()" class="bg-green-600 px-4 py-2 rounded">🖼️ Görsel Oluştur</button>
+      </div>
+      <div id="messages" class="flex-grow overflow-y-auto flex flex-col gap-2 p-2 border border-gray-700 rounded"></div>
+      <div class="mt-4 flex">
+        <input id="userInput" type="text" placeholder="Bir şey yaz..." class="flex-grow bg-gray-800 p-2 rounded-l outline-none" />
+        <button onclick="sendMessage()" class="bg-cyan-600 px-4 rounded-r">Gönder</button>
+      </div>
+      <video id="video" class="mt-4 hidden w-full h-48 rounded border border-gray-600" autoplay muted></video>
+    </div>
+  </div>
+
+  <audio id="melekVoice" src="voices/melek.mp3"></audio>
+  <audio id="parsVoice" src="voices/pars.mp3"></audio>
+
+  <script>
+    let selectedAI = null;
+
+    function selectAI(name) {
+      selectedAI = name;
+      document.getElementById("welcome").style.display = "none";
+      document.getElementById("chat").style.display = "flex";
+      document.getElementById("aiName").textContent = `Merhaba, ben ${name}`;
+      const voice = document.getElementById(name === "Melek
